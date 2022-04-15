@@ -23,11 +23,11 @@ $notas = $nota->exibirNotas();
         <table id="lstNotas" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Código</th>
+                    <!-- <th>Código</th> -->
                     <th>Titulo</th>
                     <th>Conteúdo</th>
-                    <th>Criado em</th>
-                    <th>Ações</th>
+                    <!-- <th>Criado em</th>
+                    <th>Ações</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -48,11 +48,7 @@ $notas = $nota->exibirNotas();
         $(document).ready(function() {
             $('#lstNotas').DataTable({
                 "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": "",
-                    "type": "POST"
-                }
+                "serverSide": false, //se colocar TRUE terá de retornar um JSON no JS
             });
         });
     </script>
