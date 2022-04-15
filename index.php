@@ -12,17 +12,22 @@ $notas = $nota->exibirNotas();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/assets/css/index.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <title>MyNotes</title>
 </head>
 
 <body>
     <h2>Minhas anotações</h2>
     <?php if (count($notas) > 0) : ?>
-        <table>
+        <table id="lstNotas" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Assunto</th>
-                    <th>Descrição</th>
+                    <th>Código</th>
+                    <th>Titulo</th>
+                    <th>Conteúdo</th>
+                    <th>Criado em</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +42,20 @@ $notas = $nota->exibirNotas();
     <?php else : ?>
         <h3 style="text-align:center;">Não há notas</h3>
     <?php endif; ?>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#lstNotas').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "",
+                    "type": "POST"
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -10,8 +10,16 @@ class Notas
 
     public function exibirNotas(): array
     {
+        $colunas = array(
+            array('0' => 'titulo'),
+            array('1' => 'conteudo'),
+        );
         $notas = $this->conn->query('SELECT idnotas, titulo, conteudo FROM notas');
         $resultNotas = $notas->fetchAll(PDO::FETCH_ASSOC);
+        $dados = array();
+        while($resultNotas){
+            
+        }
         return $resultNotas;
     }
 
