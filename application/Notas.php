@@ -10,29 +10,34 @@ class Notas
 
     public function exibirNotas(): array
     {
-        $notas = $this->conn->query('SELECT idnotas, titulo, conteudo FROM notas');
+        $notas = $this->conn->query('SELECT id, titulo, conteudo FROM notas');
         $resultNotas = $notas->fetchAll(PDO::FETCH_ASSOC);
-        // $data = array(
-        //     "data" => $resultNotas
-        // );
-        // json_encode($data);
         return $resultNotas;
     }
 
-    public function consultar($id)
-    {
-        $consultar = $this->conn->query('SELECT idnotas, titulo, conteudo FROM notas
-        WHERE idnotas = :idnotas');
-        $consultar->bind_param(':idnotas', $id);
-        $result = $consultar->get_result()->fetch_assoc();
-        return $result;
-    }
     public function adicionarNotas(string $titulo, string $conteudo)
     {
-        $criandoNota = ("INSERT INTO notas (titulo, conteudo) VALUES (:titulo, :conteudo) ");
-        $resultQuery = $this->conn->prepare($criandoNota);
-        $resultQuery->bindParam(':titulo', $titulo, PDO::PARAM_STR);
-        $resultQuery->bindParam(':conteudo', $conteudo, PDO::PARAM_STR);
-        $resultQuery->execute();
+        $criandoNota = $this->conn->prepare("INSERT INTO notas (titulo, conteudo) VALUES (:titulo, :conteudo) ");
+        $criandoNota->bindParam(':titulo', $titulo, PDO::PARAM_STR);
+        $criandoNota->bindParam(':conteudo', $conteudo, PDO::PARAM_STR);
+        $criandoNota->execute();
+    }
+
+    public function editarNotas(int $id, string $titulo, string $conteudo): void
+    {
+        $editarNota = $this->conn->prepare("UPDATE notas SET titulo = :titulo, conteudo = :conteudo WHERE id = :id");
+        $editarNota->bindParam(':titulo', $titulo, PDO::PARAM_STR);
+        $editarNota->bindParam(':conteudo', $conteudo, PDO::PARAM_STR);
+        $editarNota->bindParam(':id', $id, PDO::PARAM_INT);
+        $editarNota->execute();
+    }
+
+    public function consultaPorId(int $id): array
+    {
+        $consPorId = $this->conn->prepare("SELECT id, titulo, conteudo FROM notas WHERE id = :id");
+        $consPorId->bindParam(':id', $id, PDO::PARAM_INT);
+        $consPorId->execute();
+        $notas = $consPorId->fetch(PDO::FETCH_ASSOC);
+        return $notas;
     }
 }
